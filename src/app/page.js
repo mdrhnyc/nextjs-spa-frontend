@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Layout from './components/Layout';
 
 export default function HomePage() {
     // State for services data and loading
@@ -26,11 +27,11 @@ export default function HomePage() {
 
     // Render loader while fetching data
     if (loading) {
-        return <div>Loading services...</div>;
+        return <Layout><div>Loading services...</div></Layout>;
     }
 
     return (
-        <div>
+        <Layout>
             <h1>Available Services</h1>
             <ul>
                 {services.map(service => (
@@ -39,6 +40,6 @@ export default function HomePage() {
                     </li>
                 ))}
             </ul>
-        </div>
+        </Layout>
     );
 }
