@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Layout from '../../components/Layout';
 
 export default function CreateBooking() {
     const [services, setServices] = useState([]);
@@ -65,13 +66,14 @@ export default function CreateBooking() {
             // Redirect to the bookings page after successful creation
             router.push('/bookings');
         } catch (error) {
-            console.error('Error creating booking:', error);
-            setMessage('Error creating booking. Please try again.');
+            const errorMessage = error.response.data.message[0] || 'Error creating booking. Please try again!';
+            console.error(errorMessage) ;
+            setMessage(errorMessage);
         }
     };
 
     return (
-        <div>
+        <Layout>
             <h1>Create a Booking</h1>
             {message && <p>{message}</p>}
 
@@ -180,6 +182,6 @@ export default function CreateBooking() {
                 {/* Submit Button */}
                 <button type="submit">Create Booking</button>
             </form>
-        </div>
+        </Layout>
     );
 }
