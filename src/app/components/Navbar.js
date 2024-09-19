@@ -11,7 +11,7 @@ const Navbar = () => {
                     <Link href="/bookings">View Bookings</Link>
                 </li>
                 <li>
-                    <Link href="/booking/create">Create Booking</Link>
+                    <Link href="/bookings/create">Create Booking</Link>
                 </li>
             </ul>
         </nav>
