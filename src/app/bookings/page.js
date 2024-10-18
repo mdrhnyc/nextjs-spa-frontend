@@ -7,6 +7,7 @@ export default function BookingPage() {
     // State for booking data and loading
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true); // Loader state
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         // Fetch bookings from the Django API
@@ -25,7 +26,18 @@ export default function BookingPage() {
         fetchBookings();
     }, []);
 
-    // Render loader while fetching data
+    const filterBookings = ((filterText) => {
+        console.log(filterText);
+        return bookings.filter(booking => {
+            const bookingText = `${booking.service_name} ${booking.customer_first_name} ${booking.customer_last_name} ${booking.service_provider_first_name} ${booking.service_provider_last_name} ${booking.date} ${booking.time}`.toLowerCase();
+            return bookingText.toLowerCase().includes(searchText.toLowerCase());
+        });
+    })
+
+    const filterdBookings = filterBookings();
+    
+
+    // Render loader whlile fetching data
     if (loading) {
         return <Layout><div>Loading bookings...</div></Layout>;
     }
@@ -33,8 +45,9 @@ export default function BookingPage() {
     return (
         <Layout>
             <h1>Bookings</h1>
+            <input type='text' id='search-booking' className='search-booking-input' placeholder='Search booking' defaultValue={searchText} onKeyUp={((e) => {setSearchText(e.target.value); filterBookings(e.target.value)})} />
             <ul>
-                {bookings.map(booking => (
+                {filterdBookings.map(booking => (
                     <li key={booking.id}>
                         {booking.service_name} - {booking.customer_first_name} {booking.customer_last_name} - {booking.service_provider_first_name} {booking.service_provider_last_name} - {booking.date} - {booking.time}
                     </li>
